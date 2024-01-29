@@ -4,7 +4,6 @@ use std::path::Path;
 
 pub fn day_one() {
     let path = Path::new("src/scripts/inputs/nineteen.txt");
-    println!("day one!");
 
     let mut file = match File::open(&path) {
         Ok(file) => file,
@@ -17,10 +16,21 @@ pub fn day_one() {
         Err(why) => panic!("couldn't read to string: {}", why),
     };
 
+    fn calculate_fuel(fuel: i64) -> i64 {
+        let mut sum: i64 = 0;
+        let mut fuel_for_fuel: i64 = fuel / 3 - 2;
+        while fuel_for_fuel > 0 {
+            sum += fuel_for_fuel;
+            fuel_for_fuel = (fuel_for_fuel / 3) - 2;
+        }
+        sum
+    }
+
     let mut sum = 0;
+
     for line in s.lines() {
-        match line.trim().parse::<i32>() {
-            Ok(num) => sum += (num / 3) - 2,
+        match line.trim().parse::<i64>() {
+            Ok(num) => sum += calculate_fuel(num),
             Err(why) => panic!("invalid input: {}", why),
         };
     }
