@@ -56,7 +56,7 @@ pub fn day_two() {
         s.split(",").map(|n| n.trim().parse()).collect()
     }
 
-    let mut s: Vec<i32> = match str_to_vec(&s) {
+    let s: Vec<i32> = match str_to_vec(&s) {
         Ok(vec) => vec,
         Err(why) => panic!("error parsing string into vec of ints: {}", why),
     };
@@ -86,7 +86,7 @@ pub fn day_two() {
                     code_start_index += 4;
                 }
                 99 => {
-                    println!("99!");
+                    // println!("99!");
                     break;
                 }
                 _ => panic!("code started with an invalid number!"),
@@ -95,7 +95,15 @@ pub fn day_two() {
         codes
     }
 
-    s[1] = 12;
-    s[2] = 2;
-    println!("{}", run_operations(s)[0]);
+    for n in 0..=99 {
+        for v in 0..=99 {
+            let mut s_clone = s.clone();
+            s_clone[1] = n;
+            s_clone[2] = v;
+            if run_operations(s_clone)[0] == 19690720 {
+                println!("noun: {} verb: {}", n, v);
+                break;
+            }
+        }
+    }
 }
